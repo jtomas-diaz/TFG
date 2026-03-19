@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J — Fitness App</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Outfit:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --purple-deep:   #1e0a3c;
+    --purple-main:   #3b1a6e;
+    --purple-mid:    #4e2590;
+    --purple-light:  #6b3db8;
+    --gold:          #c9962c;
+    --gold-light:    #e8b84b;
+    --gold-pale:     #f5d98e;
+    --white:         #ffffff;
+    --off-white:     #f3f0fa;
+    --text-muted:    rgba(255,255,255,0.55);
+    --card-bg:       rgba(255,255,255,0.07);
+    --card-border:   rgba(201,150,44,0.25);
+    --radius:        14px;
+    --radius-sm:     8px;
+    --nav-h:         64px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0d0d0d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  /* ─── PHONE SHELL ───────────────────────────────────── */
+  .phone {
+    width: 390px;
+    height: 844px;
+    background: var(--purple-main);
+    border-radius: 44px;
+    overflow: hidden;
+    position: relative;
+    box-shadow:
+      0 0 0 2px rgba(201,150,44,0.4),
+      0 0 80px rgba(75,40,140,0.6),
+      0 40px 120px rgba(0,0,0,0.8);
+  }
+
+  /* Dynamic Island */
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 34px;
+    background: #0d0d0d;
+    border-radius: 20px;
+    z-index: 999;
+  }
+
+  /* ─── SCREENS ───────────────────────────────────────── */
+  .screen {
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    background: var(--purple-main);
+    overflow: hidden;
+  }
+  .screen.active { display: flex; }
+
+  /* ─── SHARED: TOP HEADER ─────────────────────────────── */
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 62px 22px 14px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .logo-mini {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    color: var(--purple-deep);
+    font-size: 18px;
+    box-shadow: 0 0 12px rgba(201,150,44,0.5);
+  }
+
+  .top-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  .icon-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    color: var(--gold-light);
+    font-size: 16px;
+    transition: all 0.2s;
+  }
+  .icon-btn:hover { background: rgba(201,150,44,0.15); }
+
+  /* ─── BOTTOM NAV ─────────────────────────────────────── */
+  .bottom-nav {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: var(--nav-h);
+    background: var(--purple-deep);
+    border-top: 1px solid var(--card-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 10px;
+    z-index: 100;
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: all 0.2s;
+    color: var(--text-muted);
+  }
+  .nav-item.active { color: var(--gold-light); }
+  .nav-item svg { width: 22px; height: 22px; }
+  .nav-item span {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ─── SCROLLABLE CONTENT AREA ────────────────────────── */
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 20px 80px;
+    scrollbar-width: none;
+  }
+  .content::-webkit-scrollbar { display: none; }
+
+  /* ─── CARDS ──────────────────────────────────────────── */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 14px;
+    backdrop-filter: blur(8px);
+  }
+
+  .card-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  /* ─── BUTTONS ────────────────────────────────────────── */
+  .btn-gold {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--purple-deep);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 10px 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-gold:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(201,150,44,0.4); }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--gold-light);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    padding: 10px 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-outline:hover { background: rgba(201,150,44,0.1); }
+
+  .btn-full { width: 100%; }
+
+  /* ─── INPUTS ─────────────────────────────────────────── */
+  .input-field {
+    width: 100%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    color: var(--white);
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    margin-bottom: 10px;
+  }
+  .input-field::placeholder { color: rgba(255,255,255,0.35); font-size: 13px; }
+  .input-field:focus { border-color: var(--gold); }
+
+  /* ─── SECTION LABEL ──────────────────────────────────── */
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-label::before {
+    content: '◆';
+    font-size: 6px;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     SCREEN 1: SPLASH
+  ═══════════════════════════════════════════════════════ */
+  #splash {
+    background: radial-gradient(ellipse at 50% 40%, var(--purple-mid) 0%, var(--purple-deep) 70%);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .splash-emblem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    animation: fadeUp 1.2s ease forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .emblem-svg { width: 160px; height: 160px; }
+
+  .splash-name {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-pale);
+  }
+
+  .splash-bottom {
+    position: absolute;
+    bottom: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 0 40px;
+    animation: fadeUp 1.5s ease 0.5s both;
+  }
+
+  .splash-tagline {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     SCREEN 2: REGISTER / LOGIN
+  ═══════════════════════════════════════════════════════ */
+  #register {
+    background: var(--off-white);
+  }
+
+  #register .top-bar { padding-top: 62px; }
+
+  .register-logo {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0 8px;
+  }
+
+  .register-emblem {
+    width: 70px; height: 70px;
+    background: linear-gradient(135deg, var(--purple-main), var(--purple-deep));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 24px rgba(59,26,110,0.35);
+  }
+
+  .register-form-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 28px 60px;
+    scrollbar-width: none;
+  }
+  .register-form-area::-webkit-scrollbar { display: none; }
+
+  .register-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--purple-deep);
+    text-align: center;
+    margin: 20px 0 24px;
+  }
+
+  .input-light {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(59,26,110,0.2);
+    padding: 12px 4px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    color: var(--purple-deep);
+    outline: none;
+    margin-bottom: 6px;
+    transition: border-color 0.2s;
+  }
+  .input-light::placeholder { color: rgba(59,26,110,0.4); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .input-light:focus { border-color: var(--gold); }
+
+  .btn-dark {
+    width: 100%;
+    background: var(--purple-deep);
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+    margin: 24px 0 20px;
+    transition: all 0.2s;
+  }
+  .btn-dark:hover { background: var(--purple-mid); }
+
+  .social-divider {
+    display: flex; align-items: center; gap: 14px;
+    margin: 16px 0;
+    color: rgba(59,26,110,0.35);
+    font-size: 12px;
+  }
+  .social-divider::before, .social-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(59,26,110,0.15);
+  }
+
+  .social-btns {
+    display: flex; gap: 14px; justify-content: center;
+  }
+  .social-btn {
+    width: 54px; height: 54px;
+    border-radius: 50%;
+    border: 1px solid rgba(59,26,110,0.15);
+    background: white;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 22px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: all 0.2s;
+  }
+  .social-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
+
+  .switch-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+    color: rgba(59,26,110,0.5);
+  }
+  .switch-link a {
+    color: var(--purple-mid);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     SCREEN 3: HOME
+  ═══════════════════════════════════════════════════════ */
+  #home .quick-start {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  #home .quick-start:hover { transform: scale(1.01); }
+
+  .quick-start-icon {
+    width: 42px; height: 42px;
+    background: rgba(30,10,60,0.2);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+  }
+
+  .quick-start-text h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--purple-deep);
+    text-transform: uppercase;
+  }
+  .quick-start-text p {
+    font-size: 11px;
+    color: rgba(30,10,60,0.6);
+  }
+
+  .routines-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .routine-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    padding: 14px 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .routine-card:hover { background: rgba(255,255,255,0.1); border-color: var(--gold); }
+
+  .routine-emoji { font-size: 24px; margin-bottom: 8px; }
+  .routine-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .routine-meta {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .routine-placeholder {
+    background: rgba(255,255,255,0.04);
+    border: 1px dashed rgba(255,255,255,0.12);
+    border-radius: var(--radius-sm);
+    height: 90px;
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.2);
+    font-size: 28px;
+    cursor: pointer;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     SCREEN 4: TODAY / DASHBOARD
+  ═══════════════════════════════════════════════════════ */
+  .greeting-banner {
+    background: linear-gradient(135deg, rgba(201,150,44,0.15), rgba(201,150,44,0.05));
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 14px;
+  }
+
+  .greeting-top {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .greeting-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--gold-light);
+    letter-spacing: 0.04em;
+  }
+
+  .greeting-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .streak-badge {
+    background: var(--gold);
+    color: var(--purple-deep);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.06em;
+  }
+
+  .summary-list { list-style: none; }
+  .summary-list li {
+    font-size: 13px;
+    color: var(--white);
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .summary-list li:last-child { border-bottom: none; }
+  .summary-list li::before { content: '▸'; color: var(--gold); font-size: 10px; margin-top: 2px; flex-shrink: 0; }
+  .summary-list .sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 2px;
+  }
+
+  .rec-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .rec-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .rec-card:hover { background: rgba(255,255,255,0.1); }
+
+  .rec-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .rec-info { flex: 1; }
+  .rec-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .rec-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+  /* ═══════════════════════════════════════════════════════
+     SCREEN 5: PROFILE
+  ═══════════════════════════════════════════════════════ */
+  .profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 70px 20px 20px;
+    background: linear-gradient(180deg, var(--purple-deep) 0%, var(--purple-main) 100%);
+  }
+
+  .avatar {
+    width: 76px; height: 76px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--purple-light), var(--purple-mid));
+    border: 2px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 24px rgba(201,150,44,0.3);
+  }
+
+  .profile-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+
+  /* Chart */
+  .chart-wrap {
+    padding: 4px 0 12px;
+  }
+
+  .chart-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    height: 90px;
+    margin-bottom: 6px;
+  }
+
+  .bar-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .bar {
+    width: 100%;
+    border-radius: 4px 4px 0 0;
+    transition: all 0.4s ease;
+  }
+
+  .bar-label {
+    font-size: 9px;
+    color: var(--text-muted);
+    text-align: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .chart-tabs {
+    display: flex; gap: 8px; margin-bottom: 12px;
+  }
+
+  .chart-tab {
+    flex: 1;
+    padding: 8px;
+    border-radius: var(--radius-sm);
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+  }
+  .chart-tab.active { background: var(--gold); color: var(--purple-deep); border-color: var(--gold); }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .info-btn {
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    cursor: pointer;
+    text-align: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    transition: all 0.2s;
+  }
+  .info-btn:hover { background: rgba(201,150,44,0.1); }
+
+  .hist-empty {
+    text-align: center;
+    padding: 30px 0;
+    color: var(--text-muted);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     SCREEN 6: CHAT
+  ═══════════════════════════════════════════════════════ */
+  #chat {
+    background: linear-gradient(180deg, var(--purple-deep) 0%, var(--purple-main) 100%);
+  }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scrollbar-width: none;
+  }
+  .chat-messages::-webkit-scrollbar { display: none; }
+
+  .msg {
+    max-width: 78%;
+    padding: 10px 14px;
+    border-radius: 16px;
+    font-size: 13px;
+    line-height: 1.5;
+    animation: msgPop 0.25s ease;
+  }
+  @keyframes msgPop {
+    from { opacity: 0; transform: scale(0.95) translateY(5px); }
+    to   { opacity: 1; transform: scale(1)    translateY(0); }
+  }
+
+  .msg.user {
+    align-self: flex-end;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--purple-deep);
+    font-weight: 500;
+    border-radius: 16px 16px 4px 16px;
+  }
+
+  .msg.ai {
+    align-self: flex-start;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--white);
+    border-radius: 16px 16px 16px 4px;
+  }
+
+  .msg-time {
+    font-size: 10px;
+    opacity: 0.5;
+    margin-top: 3px;
+    display: block;
+  }
+
+  .chat-input-area {
+    padding: 10px 14px calc(var(--nav-h) + 10px);
+    background: var(--purple-deep);
+    border-top: 1px solid var(--card-border);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .chat-input {
+    flex: 1;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid var(--card-border);
+    border-radius: 22px;
+    padding: 10px 16px;
+    color: var(--white);
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    outline: none;
+  }
+  .chat-input::placeholder { color: var(--text-muted); }
+
+  .send-btn {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border: none;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    color: var(--purple-deep);
+    font-size: 16px;
+    flex-shrink: 0;
+    transition: transform 0.15s;
+  }
+  .send-btn:hover { transform: scale(1.08); }
+
+  /* ─── ANIMATIONS ─────────────────────────────────────── */
+  .screen.active { animation: screenIn 0.3s ease; }
+  @keyframes screenIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  /* ─── MISC ───────────────────────────────────────────── */
+  .divider {
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 14px 0;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(201,150,44,0.15);
+    border: 1px solid rgba(201,150,44,0.25);
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--gold-light);
+    text-transform: uppercase;
+  }
+
+  .stats-row {
+    display: flex; gap: 8px; margin-top: 8px;
+  }
+
+  .stat-chip {
+    flex: 1;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-sm);
+    padding: 10px 8px;
+    text-align: center;
+  }
+
+  .stat-val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold-light);
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 9px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+  }
+</style>
+</head>
+<body>
+
+<div class="phone">
+
+  <!-- ════════════════════════════════════════
+       SCREEN 1: SPLASH
+  ════════════════════════════════════════ -->
+  <div class="screen active" id="splash">
+    <div class="splash-emblem">
+      <svg class="emblem-svg" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Shield shape -->
+        <path d="M80 8 L146 34 L146 88 Q146 128 80 154 Q14 128 14 88 L14 34 Z"
+              fill="url(#shieldGrad)" stroke="url(#goldGrad)" stroke-width="2"/>
+        <!-- Inner shield -->
+        <path d="M80 24 L130 44 L130 86 Q130 118 80 138 Q30 118 30 86 L30 44 Z"
+              fill="none" stroke="rgba(201,150,44,0.3)" stroke-width="1"/>
+        <!-- J letter -->
+        <text x="80" y="102" text-anchor="middle"
+              font-family="Cinzel, serif" font-size="60" font-weight="700"
+              fill="url(#goldGrad)">J</text>
+        <!-- Crown top -->
+        <path d="M55 22 L65 10 L80 18 L95 10 L105 22 L80 28 Z"
+              fill="url(#goldGrad)" opacity="0.9"/>
+        <!-- Laurel left -->
+        <ellipse cx="34" cy="76" rx="10" ry="6" fill="url(#goldGrad)" opacity="0.5" transform="rotate(-30 34 76)"/>
+        <ellipse cx="28" cy="90" rx="10" ry="6" fill="url(#goldGrad)" opacity="0.45" transform="rotate(-20 28 90)"/>
+        <ellipse cx="26" cy="105" rx="9" ry="5" fill="url(#goldGrad)" opacity="0.4" transform="rotate(-10 26 105)"/>
+        <!-- Laurel right -->
+        <ellipse cx="126" cy="76" rx="10" ry="6" fill="url(#goldGrad)" opacity="0.5" transform="rotate(30 126 76)"/>
+        <ellipse cx="132" cy="90" rx="10" ry="6" fill="url(#goldGrad)" opacity="0.45" transform="rotate(20 132 90)"/>
+        <ellipse cx="134" cy="105" rx="9" ry="5" fill="url(#goldGrad)" opacity="0.4" transform="rotate(10 134 105)"/>
+        <defs>
+          <linearGradient id="shieldGrad" x1="80" y1="8" x2="80" y2="154" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#4e2590"/>
+            <stop offset="100%" stop-color="#1e0a3c"/>
+          </linearGradient>
+          <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#e8b84b"/>
+            <stop offset="100%" stop-color="#c9962c"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <span class="splash-name">Elite Fitness</span>
+    </div>
+
+    <div class="splash-bottom">
+      <button class="btn-gold" style="width:100%;padding:15px;font-size:15px;" onclick="goTo('register')">
+        REGISTRARSE
+      </button>
+      <p class="splash-tagline">¿Ya tienes cuenta? <span style="color:var(--gold-light);cursor:pointer;" onclick="goTo('register')">Inicia sesión</span></p>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       SCREEN 2: REGISTER / LOGIN
+  ════════════════════════════════════════ -->
+  <div class="screen" id="register" style="background: var(--off-white);">
+    <div class="register-logo">
+      <div class="register-emblem" style="margin-top:56px;">
+        <svg width="44" height="44" viewBox="0 0 160 160" fill="none">
+          <path d="M80 8 L146 34 L146 88 Q146 128 80 154 Q14 128 14 88 L14 34 Z" fill="#3b1a6e"/>
+          <text x="80" y="105" text-anchor="middle" font-family="Cinzel,serif" font-size="62" font-weight="700" fill="#e8b84b">J</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="register-form-area">
+      <div class="register-title">USER REGISTER</div>
+
+      <input class="input-light" type="text" placeholder="NOMBRE DE USUARIO">
+      <input class="input-light" type="email" placeholder="CORREO ELECTRÓNICO">
+      <input class="input-light" type="password" placeholder="CONTRASEÑA">
+      <input class="input-light" type="password" placeholder="REPETIR CONTRASEÑA">
+
+      <button class="btn-dark" onclick="goTo('home')">LOG IN</button>
+
+      <div class="social-divider">o continúa con</div>
+
+      <div class="social-btns">
+        <div class="social-btn">
+          <svg width="22" height="22" viewBox="0 0 24 24">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+        </div>
+        <div class="social-btn" style="font-size:26px;">🍎</div>
+      </div>
+
+      <div class="switch-link">
+        ¿Ya tienes cuenta? <a onclick="goTo('home')">Iniciar sesión</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       SCREEN 3: HOME
+  ════════════════════════════════════════ -->
+  <div class="screen" id="home">
+    <div class="top-bar">
+      <div class="logo-mini">J</div>
+      <span class="top-title">Mi Gym</span>
+      <div class="icon-btn">🔔</div>
+    </div>
+
+    <div class="content">
+      <div class="section-label" style="margin-bottom:10px;">Inicio Rápido</div>
+
+      <div class="quick-start" onclick="alert('¡Iniciando entrenamiento vacío!')">
+        <div class="quick-start-icon">⚡</div>
+        <div class="quick-start-text">
+          <h3>Empezar entrenamiento vacío</h3>
+          <p>Registra ejercicios libremente</p>
+        </div>
+      </div>
+
+      <div class="section-label" style="margin-bottom:10px;">Rutinas</div>
+
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <button class="btn-gold" style="flex:1;">+ Nueva rutina</button>
+        <button class="btn-outline" style="flex:1;">Explorar</button>
+      </div>
+
+      <div class="routines-grid">
+        <div class="routine-card">
+          <div class="routine-emoji">💪</div>
+          <div class="routine-name">Push A</div>
+          <div class="routine-meta">6 ejercicios · 45 min</div>
+        </div>
+        <div class="routine-card">
+          <div class="routine-emoji">🦵</div>
+          <div class="routine-name">Piernas</div>
+          <div class="routine-meta">7 ejercicios · 55 min</div>
+        </div>
+        <div class="routine-card">
+          <div class="routine-emoji">🏋️</div>
+          <div class="routine-name">Pull B</div>
+          <div class="routine-meta">5 ejercicios · 40 min</div>
+        </div>
+        <div class="routine-placeholder">＋</div>
+      </div>
+    </div>
+
+    <div class="bottom-nav" id="home-nav">
+      <div class="nav-item active" onclick="goTo('home')">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        <span>Inicio</span>
+      </div>
+      <div class="nav-item" onclick="goTo('today')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <span>Hoy</span>
+      </div>
+      <div class="nav-item" onclick="goTo('chat')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>IA</span>
+      </div>
+      <div class="nav-item" onclick="goTo('profile')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Perfil</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       SCREEN 4: TODAY / DASHBOARD
+  ════════════════════════════════════════ -->
+  <div class="screen" id="today">
+    <div class="top-bar">
+      <div class="logo-mini">J</div>
+      <span class="top-title">Resumen de hoy</span>
+      <div class="icon-btn">📅</div>
+    </div>
+
+    <div class="content">
+      <div class="greeting-banner">
+        <div class="greeting-top">
+          <div>
+            <div class="greeting-name">👋 ¡Hola, Juan!</div>
+            <div class="greeting-sub">Has completado 3 entrenamientos esta semana</div>
+          </div>
+          <div class="streak-badge">🔥 7</div>
+        </div>
+        <div class="stats-row">
+          <div class="stat-chip"><span class="stat-val">3</span><div class="stat-label">Sesiones</div></div>
+          <div class="stat-chip"><span class="stat-val">300</span><div class="stat-label">kcal</div></div>
+          <div class="stat-chip"><span class="stat-val">7h</span><div class="stat-label">Tiempo</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Tu resumen de hoy</div>
+        <div class="section-label" style="font-size:10px;margin-bottom:6px;color:var(--text-muted);">Próximo entrenamiento</div>
+        <ul class="summary-list">
+          <li>
+            <div>
+              <strong>Rutina de Pecho y Hombros</strong>
+              <span class="sub">Mañana · 8 ejercicios</span>
+            </div>
+          </li>
+        </ul>
+        <div class="divider"></div>
+        <div class="section-label" style="font-size:10px;margin-bottom:6px;color:var(--text-muted);">Calorías de hoy</div>
+        <ul class="summary-list">
+          <li>
+            <div>
+              300 kcal (¡Vas muy bien!)
+              <span class="sub">Meta: 2500 kcal</span>
+            </div>
+          </li>
+          <li>
+            <div>
+              Peso hoy: <strong>77.000 pesos</strong>
+              <span class="sub">Sin cambios desde ayer</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Recomendado para ti</div>
+        <div class="rec-cards">
+          <div class="rec-card" onclick="goTo('home')">
+            <div class="rec-icon">🔥</div>
+            <div class="rec-info">
+              <div class="rec-name">HIIT Rápido 20 min</div>
+              <div class="rec-desc">Cardio intenso · Grasa corporal</div>
+            </div>
+            <span style="color:var(--gold);font-size:16px;">›</span>
+          </div>
+          <div class="rec-card" onclick="goTo('home')">
+            <div class="rec-icon">🧘</div>
+            <div class="rec-info">
+              <div class="rec-name">Yoga Recuperación</div>
+              <div class="rec-desc">Flexibilidad · 30 min</div>
+            </div>
+            <span style="color:var(--gold);font-size:16px;">›</span>
+          </div>
+          <div class="rec-card" onclick="goTo('home')">
+            <div class="rec-icon">💪</div>
+            <div class="rec-info">
+              <div class="rec-name">Upper Body Básico</div>
+              <div class="rec-desc">Fuerza · 6 ejercicios</div>
+            </div>
+            <span style="color:var(--gold);font-size:16px;">›</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <div class="nav-item" onclick="goTo('home')">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        <span>Inicio</span>
+      </div>
+      <div class="nav-item active" onclick="goTo('today')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <span>Hoy</span>
+      </div>
+      <div class="nav-item" onclick="goTo('chat')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>IA</span>
+      </div>
+      <div class="nav-item" onclick="goTo('profile')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Perfil</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       SCREEN 5: PROFILE
+  ════════════════════════════════════════ -->
+  <div class="screen" id="profile">
+    <div class="profile-header">
+      <div class="avatar">👤</div>
+      <div class="profile-name">JUAN</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Miembro Premium · Desde 2024</div>
+    </div>
+
+    <div class="content" style="padding-top:16px;">
+      <div class="card">
+        <div class="card-title">Actividad Semanal</div>
+        <div class="chart-wrap">
+          <div class="chart-bars" id="chartBars"></div>
+          <div style="display:flex;justify-content:space-around;padding:0 4px;">
+            <span class="bar-label">LUN</span>
+            <span class="bar-label">MAR</span>
+            <span class="bar-label">MIÉ</span>
+            <span class="bar-label">JUE</span>
+            <span class="bar-label">VIE</span>
+            <span class="bar-label">SÁB</span>
+            <span class="bar-label">DOM</span>
+          </div>
+        </div>
+
+        <div class="chart-tabs">
+          <div class="chart-tab active">Semana</div>
+          <div class="chart-tab">Resumen</div>
+          <div class="chart-tab">Referencias</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Información</div>
+        <div class="info-grid">
+          <div class="info-btn">📊 Estadísticas</div>
+          <div class="info-btn">🏅 Ejercicios</div>
+          <div class="info-btn">📋 Medidas</div>
+          <div class="info-btn">⚙️ Ajustes</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Historial</div>
+        <div class="hist-empty">
+          AÚN NO TIENES ENTRENAMIENTOS REGISTRADOS
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <div class="nav-item" onclick="goTo('home')">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        <span>Inicio</span>
+      </div>
+      <div class="nav-item" onclick="goTo('today')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <span>Hoy</span>
+      </div>
+      <div class="nav-item" onclick="goTo('chat')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>IA</span>
+      </div>
+      <div class="nav-item active" onclick="goTo('profile')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Perfil</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       SCREEN 6: AI CHAT
+  ════════════════════════════════════════ -->
+  <div class="screen" id="chat" style="display:none;flex-direction:column;">
+    <div class="top-bar">
+      <div class="logo-mini">J</div>
+      <span class="top-title">Asistente IA</span>
+      <div class="icon-btn">✨</div>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+      <div class="msg ai">
+        ¡Hola! Soy tu asistente de fitness. ¿En qué puedo ayudarte hoy?
+        <span class="msg-time">Ahora mismo</span>
+      </div>
+      <div class="msg user">
+        ¿Tienes mi rutina de hoy? súbela 🙏
+        <span class="msg-time">10:32</span>
+      </div>
+      <div class="msg ai">
+        Perfecto, muchas gracias. Hoy toca <strong>Rutina de Pecho y Hombros</strong>. 6 ejercicios, aproximadamente 45 minutos. ¿Empezamos?
+        <span class="msg-time">10:32</span>
+      </div>
+    </div>
+
+    <div class="chat-input-area">
+      <input class="chat-input" id="chatInput" type="text" placeholder="Escribe un mensaje...">
+      <button class="send-btn" onclick="sendMsg()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </div>
+
+    <div class="bottom-nav">
+      <div class="nav-item" onclick="goTo('home')">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        <span>Inicio</span>
+      </div>
+      <div class="nav-item" onclick="goTo('today')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <span>Hoy</span>
+      </div>
+      <div class="nav-item active" onclick="goTo('chat')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>IA</span>
+      </div>
+      <div class="nav-item" onclick="goTo('profile')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Perfil</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /phone -->
+
+<script>
+  // ─── NAVIGATION ───────────────────────────────────────
+  function goTo(id) {
+    document.querySelectorAll('.screen').forEach(s => {
+      s.classList.remove('active');
+      s.style.display = '';
+    });
+    const target = document.getElementById(id);
+    if (target) {
+      target.style.display = 'flex';
+      target.classList.add('active');
+    }
+    if (id === 'profile') buildChart();
+    if (id === 'chat') {
+      const msgs = document.getElementById('chatMessages');
+      if (msgs) msgs.scrollTop = msgs.scrollHeight;
+    }
+  }
+
+  // ─── CHART ────────────────────────────────────────────
+  const barData = [65, 40, 80, 0, 55, 30, 90];
+  const barColors = ['#c9962c','#e8b84b','#c9962c','#3b1a6e','#e8b84b','#c9962c','#6b3db8'];
+
+  function buildChart() {
+    const wrap = document.getElementById('chartBars');
+    if (!wrap || wrap.children.length > 0) return;
+    barData.forEach((val, i) => {
+      const group = document.createElement('div');
+      group.className = 'bar-group';
+      const bar = document.createElement('div');
+      bar.className = 'bar';
+      bar.style.cssText = `height:0;background:${barColors[i]};border-radius:4px 4px 0 0;transition:height 0.6s ease ${i*0.07}s;`;
+      group.appendChild(bar);
+      wrap.appendChild(group);
+      setTimeout(() => { bar.style.height = val + '%'; }, 100);
+    });
+  }
+
+  // ─── CHART TABS ───────────────────────────────────────
+  document.querySelectorAll('.chart-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  // ─── CHAT SEND ────────────────────────────────────────
+  const aiReplies = [
+    "¡Excelente pregunta! Tu progreso esta semana ha sido muy bueno. 💪",
+    "Recuerda descansar entre series para maximizar el rendimiento.",
+    "Para ganar masa muscular, te recomiendo aumentar la proteína a 2g/kg de peso.",
+    "Hoy es un buen día para entrenar piernas, llevas 2 días de descanso.",
+    "¡Vas muy bien! Mantén la constancia y verás resultados en 4-6 semanas."
+  ];
+
+  function sendMsg() {
+    const input = document.getElementById('chatInput');
+    const msgs  = document.getElementById('chatMessages');
+    if (!input.value.trim()) return;
+
+    const userMsg = document.createElement('div');
+    userMsg.className = 'msg user';
+    userMsg.innerHTML = input.value + '<span class="msg-time">Ahora</span>';
+    msgs.appendChild(userMsg);
+
+    input.value = '';
+    msgs.scrollTop = msgs.scrollHeight;
+
+    setTimeout(() => {
+      const aiMsg = document.createElement('div');
+      aiMsg.className = 'msg ai';
+      aiMsg.innerHTML = aiReplies[Math.floor(Math.random() * aiReplies.length)] + '<span class="msg-time">Ahora</span>';
+      msgs.appendChild(aiMsg);
+      msgs.scrollTop = msgs.scrollHeight;
+    }, 800);
+  }
+
+  document.getElementById('chatInput')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') sendMsg();
+  });
+</script>
+</body>
+</html>
