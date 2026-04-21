@@ -1,0 +1,215 @@
+/* ============================================================
+   JFIT — perfil.css
+   ============================================================ */
+
+/* ── Layout de perfil: 2 columnas en PC ── */
+.layout-perfil {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+/* ── Tarjeta de identidad (columna izquierda) ── */
+.tarjeta-identidad {
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--borde-dorado);
+  border-radius: 20px;
+  overflow: hidden;
+  position: sticky;
+  top: 90px;
+}
+
+.identidad-cabecera {
+  background: linear-gradient(135deg, rgba(68,53,91,.7), rgba(49,38,62,.5));
+  padding: 36px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  border-bottom: 1px solid var(--borde-dorado);
+}
+
+.avatar-perfil-grande {
+  width: 90px;
+  height: 90px;
+  font-size: 34px;
+  border-width: 3px;
+  position: relative;
+}
+
+.badge-rol {
+  position: absolute;
+  bottom: 0; right: 0;
+  background: var(--dorado);
+  color: var(--fondo-principal);
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 2px solid var(--fondo-principal);
+}
+
+.identidad-nombre {
+  font-family: var(--fuente-titulo);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--blanco);
+}
+
+.identidad-email {
+  font-size: 13px;
+  color: var(--texto-suave);
+  margin-top: -4px;
+}
+
+/* Datos de la tarjeta */
+.identidad-datos {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.dato-fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 0;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+.dato-fila:last-child { border-bottom: none; }
+
+.dato-etiqueta {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--texto-suave);
+}
+
+.dato-valor {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--blanco);
+  text-align: right;
+  max-width: 60%;
+  word-break: break-all;
+}
+
+.dato-valor.valor-oculto {
+  letter-spacing: 0.2em;
+  color: var(--texto-suave);
+}
+
+/* ── Columna derecha: acciones y configuración ── */
+.columna-acciones { display: flex; flex-direction: column; gap: 20px; }
+
+/* ── Bloque de configuración ── */
+.bloque-config {
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--borde-dorado);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.bloque-config-cabecera {
+  padding: 18px 22px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bloque-config-icono {
+  width: 36px; height: 36px;
+  background: var(--dorado-brillo);
+  border: 1px solid var(--borde-dorado);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--dorado); flex-shrink: 0;
+}
+
+.bloque-config-titulo {
+  font-family: var(--fuente-titulo);
+  font-size: 14px; font-weight: 700;
+  color: var(--blanco); letter-spacing: .03em;
+}
+
+.bloque-config-descripcion {
+  font-size: 11px; color: var(--texto-suave); margin-top: 2px;
+}
+
+/* Opciones dentro del bloque */
+.lista-opciones { padding: 6px 0; }
+
+.opcion-config {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 22px;
+  cursor: pointer;
+  transition: background .16s;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  text-decoration: none;
+}
+
+.opcion-config:last-child { border-bottom: none; }
+
+.opcion-config:hover { background: rgba(255,255,255,.05); }
+
+.opcion-config-icono {
+  width: 34px; height: 34px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--texto-suave); flex-shrink: 0; transition: all .16s;
+}
+
+.opcion-config:hover .opcion-config-icono {
+  background: var(--dorado-brillo);
+  border-color: var(--borde-dorado);
+  color: var(--dorado);
+}
+
+.opcion-config-info { flex: 1; min-width: 0; }
+
+.opcion-config-nombre {
+  font-size: 14px; font-weight: 600; color: var(--blanco);
+}
+
+.opcion-config-detalle {
+  font-size: 11px; color: var(--texto-suave); margin-top: 2px;
+}
+
+.opcion-config-flecha {
+  color: var(--texto-suave); flex-shrink: 0; transition: transform .16s;
+}
+
+.opcion-config:hover .opcion-config-flecha {
+  color: var(--dorado); transform: translateX(3px);
+}
+
+/* Variante peligro */
+.opcion-config.peligro .opcion-config-nombre { color: var(--rojo-peligro); }
+.opcion-config.peligro .opcion-config-icono  { color: var(--rojo-peligro); }
+.opcion-config.peligro:hover { background: rgba(217,95,95,.06); }
+.opcion-config.peligro:hover .opcion-config-icono { background: rgba(217,95,95,.12); border-color: rgba(217,95,95,.25); }
+.opcion-config.peligro:hover .opcion-config-flecha { color: var(--rojo-peligro); }
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .layout-perfil { grid-template-columns: 280px 1fr; gap: 20px; }
+  .avatar-perfil-grande { width: 76px; height: 76px; font-size: 28px; }
+}
+
+@media (max-width: 600px) {
+  .layout-perfil { grid-template-columns: 1fr; }
+  .tarjeta-identidad { position: static; }
+  .identidad-cabecera { padding: 28px 22px; }
+}

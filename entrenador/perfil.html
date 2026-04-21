@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Perfil — JFIT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos-globales.css">
+  <link rel="stylesheet" href="css/perfil.css">
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<div class="layout-principal">
+
+  <!-- ════════════ SIDEBAR ════════════ -->
+  <aside class="barra-lateral" id="barra-lateral">
+    <div class="sidebar-logo-area">
+      <img src="img/logo.png" alt="JFIT" class="sidebar-logo-imagen">
+      <div class="sidebar-logo-texto">
+        <div class="sidebar-nombre-app">JFIT</div>
+        <div class="sidebar-rol-app">Panel Administrador</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-grupo-etiqueta">Principal</div>
+      <a href="lista-clientes.html" class="sidebar-enlace"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Mis Clientes</span></a>
+      <a href="entrenamiento-cliente.html" class="sidebar-enlace"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="3"/><path d="M6.5 7h11M6.5 12h11M6.5 17h11"/></svg><span>Rutinas</span></a>
+      <a href="chat-con-clientes.html" class="sidebar-enlace"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Chat</span></a>
+      <div class="sidebar-separador"></div>
+      <div class="sidebar-grupo-etiqueta">Cuenta</div>
+      <a href="perfil.html" class="sidebar-enlace activo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg><span>Mi Perfil</span></a>
+    </nav>
+    <div class="sidebar-zona-usuario">
+      <div class="sidebar-avatar-mini">A</div>
+      <div class="sidebar-usuario-info">
+        <div class="sidebar-usuario-nombre">Administrador</div>
+        <div class="sidebar-usuario-rol">Admin · JFIT</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ════════════ CONTENIDO ════════════ -->
+  <div class="area-contenido">
+
+    <header class="topbar">
+      <div class="topbar-izquierda">
+        <button class="boton-menu-movil" onclick="abrirSidebar()" aria-label="Abrir menú">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <div>
+          <div class="topbar-titulo">Mi Perfil</div>
+          <div class="topbar-subtitulo">Información de la cuenta</div>
+        </div>
+      </div>
+      <div class="topbar-derecha">
+        <button class="boton-dorado" onclick="abrirModalCambiarDatos()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Editar cuenta
+        </button>
+      </div>
+    </header>
+
+    <main class="contenedor-pagina">
+      <div class="layout-perfil">
+
+        <!-- ── COLUMNA IZQUIERDA: tarjeta de identidad ── -->
+        <div class="tarjeta-identidad">
+
+          <!-- Cabecera con avatar -->
+          <div class="identidad-cabecera">
+            <div style="position:relative">
+              <div class="avatar-usuario avatar-perfil-grande" id="avatar-perfil">A</div>
+              <span class="badge-rol">Admin</span>
+            </div>
+            <div class="identidad-nombre" id="perfil-nombre-display">Administrador</div>
+            <div class="identidad-email" id="perfil-email-display">admin@jfit.com</div>
+          </div>
+
+          <!-- Datos de la cuenta -->
+          <div class="identidad-datos">
+
+            <div class="dato-fila">
+              <span class="dato-etiqueta">Usuario</span>
+              <span class="dato-valor" id="perfil-dato-usuario">Administrador</span>
+            </div>
+
+            <div class="dato-fila">
+              <span class="dato-etiqueta">Correo</span>
+              <span class="dato-valor" id="perfil-dato-email">admin@jfit.com</span>
+            </div>
+
+            <div class="dato-fila">
+              <span class="dato-etiqueta">Contraseña</span>
+              <span class="dato-valor valor-oculto">••••••••••</span>
+            </div>
+
+            <div class="dato-fila">
+              <span class="dato-etiqueta">Rol</span>
+              <span class="dato-valor">Administrador</span>
+            </div>
+
+            <div class="dato-fila">
+              <span class="dato-etiqueta">Miembro desde</span>
+              <span class="dato-valor">Enero 2025</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ── COLUMNA DERECHA: acciones y configuración ── -->
+        <div class="columna-acciones">
+
+          <!-- Bloque: Configuración de cuenta -->
+          <div class="bloque-config">
+            <div class="bloque-config-cabecera">
+              <div class="bloque-config-icono">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg>
+              </div>
+              <div>
+                <div class="bloque-config-titulo">Configuración de cuenta</div>
+                <div class="bloque-config-descripcion">Gestiona tus datos de acceso</div>
+              </div>
+            </div>
+            <div class="lista-opciones">
+
+              <div class="opcion-config" onclick="abrirModalCambiarDatos()">
+                <div class="opcion-config-icono">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </div>
+                <div class="opcion-config-info">
+                  <div class="opcion-config-nombre">Cambiar nombre de usuario</div>
+                  <div class="opcion-config-detalle">Modifica el nombre con el que apareces</div>
+                </div>
+                <svg class="opcion-config-flecha" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+              </div>
+
+              <div class="opcion-config" onclick="abrirModalCambiarEmail()">
+                <div class="opcion-config-icono">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
+                <div class="opcion-config-info">
+                  <div class="opcion-config-nombre">Cambiar correo electrónico</div>
+                  <div class="opcion-config-detalle">Actualiza tu dirección de email</div>
+                </div>
+                <svg class="opcion-config-flecha" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+              </div>
+
+              <div class="opcion-config" onclick="abrirModalCambiarContrasena()">
+                <div class="opcion-config-icono">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <div class="opcion-config-info">
+                  <div class="opcion-config-nombre">Cambiar contraseña</div>
+                  <div class="opcion-config-detalle">Actualiza tu contraseña de acceso</div>
+                </div>
+                <svg class="opcion-config-flecha" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Bloque: Zona de peligro -->
+          <div class="bloque-config">
+            <div class="bloque-config-cabecera">
+              <div class="bloque-config-icono" style="background:rgba(217,95,95,.12);border-color:rgba(217,95,95,.25);color:var(--rojo-peligro)">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </div>
+              <div>
+                <div class="bloque-config-titulo">Zona de peligro</div>
+                <div class="bloque-config-descripcion">Acciones irreversibles de la cuenta</div>
+              </div>
+            </div>
+            <div class="lista-opciones">
+              <div class="opcion-config peligro" onclick="abrirModalCerrarSesion()">
+                <div class="opcion-config-icono">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                </div>
+                <div class="opcion-config-info">
+                  <div class="opcion-config-nombre">Cerrar sesión</div>
+                  <div class="opcion-config-detalle">Salir de la cuenta actual</div>
+                </div>
+                <svg class="opcion-config-flecha" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /columna-acciones -->
+
+      </div><!-- /layout-perfil -->
+    </main>
+  </div>
+</div>
+
+<!-- Nav móvil -->
+<nav class="barra-navegacion-movil">
+  <a href="lista-clientes.html" class="nav-movil-elemento"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Clientes</span></a>
+  <a href="entrenamiento-cliente.html" class="nav-movil-elemento"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="3"/><path d="M6.5 7h11M6.5 12h11M6.5 17h11"/></svg><span>Rutinas</span></a>
+  <a href="chat-con-clientes.html" class="nav-movil-elemento"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Chat</span></a>
+  <a href="perfil.html" class="nav-movil-elemento activo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg><span>Perfil</span></a>
+</nav>
+
+
+<!-- ══════════════════════════════════════════
+     MODAL: CAMBIAR NOMBRE DE USUARIO
+══════════════════════════════════════════ -->
+<div class="fondo-modal" id="modal-cambiar-datos">
+  <div class="modal-contenido">
+    <div class="modal-tirador"></div>
+    <div class="modal-cabecera">
+      <h2 class="modal-titulo">Cambiar datos de cuenta</h2>
+      <button class="modal-cerrar-btn" onclick="cerrarModalCambiarDatos()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="campo-formulario">
+      <label for="nuevo-nombre-usuario">Nombre de usuario</label>
+      <input type="text" id="nuevo-nombre-usuario" placeholder="Ej: Admin JFIT" value="Administrador">
+    </div>
+    <p style="font-size:12px;color:var(--texto-suave);margin-top:-6px;margin-bottom:14px;line-height:1.6">
+      Este nombre se mostrará en el panel y en las conversaciones con tus clientes.
+    </p>
+    <div class="acciones-modal">
+      <button class="boton-cancelar" onclick="cerrarModalCambiarDatos()">Cancelar</button>
+      <button class="boton-confirmar" onclick="guardarNombreUsuario()">Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     MODAL: CAMBIAR CORREO ELECTRÓNICO
+══════════════════════════════════════════ -->
+<div class="fondo-modal" id="modal-cambiar-email">
+  <div class="modal-contenido">
+    <div class="modal-tirador"></div>
+    <div class="modal-cabecera">
+      <h2 class="modal-titulo">Cambiar correo electrónico</h2>
+      <button class="modal-cerrar-btn" onclick="cerrarModalCambiarEmail()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="campo-formulario">
+      <label for="nuevo-email">Nuevo correo electrónico</label>
+      <input type="email" id="nuevo-email" placeholder="nuevo@correo.com" value="admin@jfit.com">
+    </div>
+    <div class="campo-formulario">
+      <label for="confirmar-email">Confirmar correo</label>
+      <input type="email" id="confirmar-email" placeholder="Repite el nuevo correo">
+    </div>
+    <p style="font-size:12px;color:var(--texto-suave);margin-top:-6px;line-height:1.6">
+      Necesitarás verificar el nuevo correo antes de que el cambio surta efecto.
+    </p>
+    <div class="acciones-modal">
+      <button class="boton-cancelar" onclick="cerrarModalCambiarEmail()">Cancelar</button>
+      <button class="boton-confirmar" onclick="guardarEmail()">Guardar correo</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     MODAL: CAMBIAR CONTRASEÑA
+══════════════════════════════════════════ -->
+<div class="fondo-modal" id="modal-cambiar-contrasena">
+  <div class="modal-contenido">
+    <div class="modal-tirador"></div>
+    <div class="modal-cabecera">
+      <h2 class="modal-titulo">Cambiar contraseña</h2>
+      <button class="modal-cerrar-btn" onclick="cerrarModalCambiarContrasena()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="campo-formulario">
+      <label for="contrasena-actual">Contraseña actual</label>
+      <input type="password" id="contrasena-actual" placeholder="Tu contraseña actual">
+    </div>
+    <div class="campo-formulario">
+      <label for="nueva-contrasena">Nueva contraseña</label>
+      <input type="password" id="nueva-contrasena" placeholder="Mínimo 8 caracteres">
+    </div>
+    <div class="campo-formulario">
+      <label for="confirmar-contrasena">Confirmar nueva contraseña</label>
+      <input type="password" id="confirmar-contrasena" placeholder="Repite la nueva contraseña">
+    </div>
+    <div style="background:rgba(236,167,44,.08);border:1px solid rgba(236,167,44,.2);border-radius:10px;padding:12px 14px;margin-bottom:4px">
+      <p style="font-size:12px;color:var(--texto-suave);line-height:1.65">
+        🔒 La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas y un número.
+      </p>
+    </div>
+    <div class="acciones-modal">
+      <button class="boton-cancelar" onclick="cerrarModalCambiarContrasena()">Cancelar</button>
+      <button class="boton-confirmar" onclick="guardarContrasena()">Cambiar contraseña</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     MODAL: CERRAR SESIÓN
+══════════════════════════════════════════ -->
+<div class="fondo-modal" id="modal-cerrar-sesion">
+  <div class="modal-contenido">
+    <div class="modal-tirador"></div>
+    <div style="text-align:center">
+      <div class="icono-eliminar">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </div>
+      <h2 class="modal-titulo">Cerrar sesión</h2>
+      <p style="font-size:13px;color:var(--texto-suave);margin-top:8px;line-height:1.7">
+        ¿Seguro que quieres cerrar la sesión? Tendrás que volver a identificarte para acceder al panel.
+      </p>
+    </div>
+    <div class="acciones-modal" style="margin-top:24px">
+      <button class="boton-cancelar" onclick="cerrarModalCerrarSesion()">Cancelar</button>
+      <button class="boton-peligro" onclick="cerrarSesion()">Cerrar sesión</button>
+    </div>
+  </div>
+</div>
+
+<div class="notificacion-toast" id="notificacion"></div>
+
+<script src="js/sidebar.js"></script>
+<script src="js/perfil.js"></script>
+</body>
+</html>

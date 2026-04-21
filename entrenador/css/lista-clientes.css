@@ -1,0 +1,131 @@
+/* ============================================================
+   JFIT — lista-clientes.css
+   ============================================================ */
+
+/* ── Fila de estadísticas ── */
+.fila-estadisticas {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.tarjeta-estadistica {
+  flex: 1;
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--borde-dorado);
+  border-radius: 16px;
+  padding: 20px 22px;
+  transition: all 0.2s;
+}
+
+.tarjeta-estadistica:hover {
+  border-color: rgba(236,167,44,.45);
+  transform: translateY(-2px);
+}
+
+.estadistica-valor {
+  font-family: var(--fuente-titulo);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--dorado);
+  line-height: 1;
+}
+
+.estadistica-etiqueta {
+  font-size: 11px;
+  color: var(--texto-suave);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 6px;
+}
+
+/* ── Grid de tarjetas de clientes ── */
+.grid-clientes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+}
+
+/* ── Tarjeta de cliente ── */
+.tarjeta-cliente {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--borde-dorado);
+  border-radius: 16px;
+  padding: 16px 18px;
+  cursor: pointer;
+  transition: all 0.22s;
+  position: relative;
+  animation: aparecerDesdeAbajo 0.38s ease both;
+}
+
+.tarjeta-cliente:hover {
+  border-color: rgba(236,167,44,.5);
+  background: var(--fondo-tarjeta-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+}
+
+.avatar-cliente { width: 50px; height: 50px; font-size: 19px; }
+
+.info-cliente { flex: 1; min-width: 0; }
+
+.nombre-cliente {
+  font-size: 14px; font-weight: 600; color: var(--blanco);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.email-cliente {
+  font-size: 11px; color: var(--texto-suave); margin-top: 3px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* ── Botón de opciones (⋮) ── */
+.boton-opciones {
+  background: none; border: none; cursor: pointer;
+  color: var(--texto-suave); padding: 6px; border-radius: 8px;
+  transition: all .2s; display: flex; align-items: center;
+  flex-shrink: 0; position: relative;
+}
+.boton-opciones:hover { color: var(--dorado); background: var(--dorado-brillo); }
+
+/* ── Menú desplegable ── */
+.menu-opciones {
+  position: absolute; right: 0; top: calc(100% + 6px);
+  background: #1e1630;
+  border: 1px solid var(--borde-dorado);
+  border-radius: 12px; overflow: hidden;
+  min-width: 180px; z-index: 100;
+  box-shadow: 0 12px 40px rgba(0,0,0,.55); display: none;
+}
+.menu-opciones.abierto { display: block; animation: desplegarse .14s ease; }
+
+.opcion-menu {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px; font-size: 13px;
+  font-family: var(--fuente-cuerpo); font-weight: 500;
+  cursor: pointer; color: var(--blanco); transition: background .14s;
+}
+.opcion-menu:hover { background: rgba(255,255,255,.06); }
+.opcion-menu.peligro { color: var(--rojo-peligro); }
+.opcion-menu.peligro:hover { background: rgba(217,95,95,.1); }
+
+/* ── Modal eliminar ── */
+.modal-eliminar { text-align: center; }
+.modal-eliminar p { font-size: 13px; color: var(--texto-suave); margin-top: 8px; line-height: 1.7; }
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .grid-clientes { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .estadistica-valor { font-size: 26px; }
+}
+
+@media (max-width: 600px) {
+  .fila-estadisticas { gap: 10px; }
+  .tarjeta-estadistica { padding: 14px 16px; }
+  .estadistica-valor { font-size: 22px; }
+  .grid-clientes { grid-template-columns: 1fr; gap: 11px; }
+  .tarjeta-cliente:hover { transform: translateX(2px); box-shadow: none; }
+}

@@ -1,0 +1,374 @@
+/* ============================================================
+   JFIT — entrenamiento.css
+   Vista 1: selección de cliente
+   Vista 2: plan de entrenamiento del cliente
+   ============================================================ */
+
+/* ════════════════════════════════════════
+   VISTA 1 — SELECCIÓN DE CLIENTE
+════════════════════════════════════════ */
+
+.grid-clientes-rutinas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+/* Tarjeta de cliente */
+.tarjeta-cliente-rutina {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--borde-dorado);
+  border-radius: 16px;
+  padding: 18px 20px;
+  cursor: pointer;
+  transition: all 0.22s;
+  animation: aparecerDesdeAbajo 0.38s ease both;
+}
+
+.tarjeta-cliente-rutina:hover {
+  border-color: rgba(236,167,44,.55);
+  background: var(--fondo-tarjeta-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,0,0,.28);
+}
+
+.avatar-rutina {
+  width: 56px;
+  height: 56px;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.info-rutina { flex: 1; min-width: 0; }
+
+.nombre-rutina {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--blanco);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.email-rutina {
+  font-size: 11px;
+  color: var(--texto-suave);
+  margin-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge-estado-rutina {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+  margin-top: 5px;
+  display: inline-block;
+}
+
+/* Contador de días en la tarjeta */
+.dias-rutina-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  background: rgba(236,167,44,.1);
+  border: 1px solid rgba(236,167,44,.25);
+  border-radius: 12px;
+  padding: 10px 14px;
+  min-width: 64px;
+  transition: all 0.2s;
+}
+
+.tarjeta-cliente-rutina:hover .dias-rutina-badge {
+  background: rgba(236,167,44,.18);
+  border-color: rgba(236,167,44,.45);
+}
+
+.dias-rutina-numero {
+  font-family: var(--fuente-titulo);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--dorado);
+  line-height: 1;
+}
+
+.dias-rutina-label {
+  font-size: 9px;
+  color: var(--texto-suave);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 3px;
+  white-space: nowrap;
+}
+
+/* Flecha */
+.flecha-rutina {
+  color: var(--texto-suave);
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.tarjeta-cliente-rutina:hover .flecha-rutina {
+  color: var(--dorado);
+  transform: translateX(3px);
+}
+
+/* Estado vacío */
+.sin-clientes-rutinas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 24px;
+  text-align: center;
+  gap: 16px;
+}
+
+.sin-clientes-rutinas-icono {
+  width: 72px;
+  height: 72px;
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--borde-dorado);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sin-clientes-rutinas h3 { font-family: var(--fuente-titulo); font-size: 16px; color: var(--dorado); }
+.sin-clientes-rutinas p  { font-size: 14px; color: var(--texto-suave); max-width: 260px; line-height: 1.7; }
+
+
+/* ════════════════════════════════════════
+   VISTA 2 — RUTINA DEL CLIENTE
+════════════════════════════════════════ */
+
+/* Layout dos columnas PC */
+.layout-entrenamiento {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+/* Panel info cliente (sticky izquierda) */
+.panel-info-cliente {
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--borde-dorado);
+  border-radius: 20px;
+  overflow: hidden;
+  position: sticky;
+  top: 90px;
+}
+
+.hero-cliente {
+  background: linear-gradient(135deg, rgba(68,53,91,.7), rgba(49,38,62,.5));
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--borde-dorado);
+}
+
+.avatar-hero { width: 72px; height: 72px; font-size: 26px; }
+
+.info-hero h2 { font-family: var(--fuente-titulo); font-size: 18px; font-weight: 700; color: var(--blanco); }
+.info-hero p  { font-size: 12px; color: var(--texto-suave); margin-top: 2px; }
+
+.stats-cliente {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--borde-dorado);
+}
+
+.stat-cliente-item { background: var(--fondo-tarjeta); padding: 16px; text-align: center; }
+.stat-cliente-num  { font-family: var(--fuente-titulo); font-size: 22px; font-weight: 700; color: var(--dorado); line-height: 1; }
+.stat-cliente-lbl  { font-size: 10px; color: var(--texto-suave); text-transform: uppercase; letter-spacing: .08em; margin-top: 4px; }
+
+/* Botón volver a la selección */
+.boton-volver-seleccion {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 20px;
+  background: none;
+  border: none;
+  border-top: 1px solid var(--borde-dorado);
+  color: var(--texto-suave);
+  font-family: var(--fuente-cuerpo);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s;
+  text-align: left;
+}
+
+.boton-volver-seleccion:hover {
+  background: rgba(255,255,255,.04);
+  color: var(--dorado);
+}
+
+.boton-volver-seleccion svg { flex-shrink: 0; transition: transform 0.18s; }
+.boton-volver-seleccion:hover svg { transform: translateX(-3px); }
+
+/* Columna días */
+.columna-dias { display: flex; flex-direction: column; gap: 14px; }
+
+.cabecera-seccion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+/* Tarjeta de día */
+.tarjeta-dia {
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--borde-dorado);
+  border-radius: 18px;
+  overflow: hidden;
+  animation: aparecerDesdeAbajo 0.38s ease both;
+  transition: box-shadow 0.2s;
+}
+
+.tarjeta-dia:hover { box-shadow: 0 6px 20px rgba(0,0,0,.2); }
+
+.cabecera-dia {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 18px; cursor: pointer; transition: background .18s;
+}
+
+.cabecera-dia:hover { background: rgba(255,255,255,.04); }
+
+.cabecera-dia-izquierda { display: flex; align-items: center; gap: 13px; }
+
+.numero-dia {
+  width: 38px; height: 38px;
+  border-radius: 10px; background: var(--dorado);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--fuente-titulo); font-size: 14px; font-weight: 700;
+  color: var(--fondo-principal); flex-shrink: 0;
+}
+
+.titulo-dia { font-size: 15px; font-weight: 600; color: var(--blanco); }
+.meta-dia   { font-size: 11px; color: var(--texto-suave); margin-top: 2px; }
+
+.cabecera-dia-derecha { display: flex; align-items: center; gap: 8px; }
+
+.icono-chevron { color: var(--texto-suave); transition: transform .22s; }
+.icono-chevron.abierto { transform: rotate(180deg); }
+
+.boton-eliminar-dia {
+  width: 30px; height: 30px;
+  background: rgba(217,95,95,.1); border: 1px solid rgba(217,95,95,.2);
+  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--rojo-peligro); transition: all .2s;
+}
+
+.boton-eliminar-dia:hover { background: rgba(217,95,95,.22); }
+
+/* Ejercicios */
+.lista-ejercicios { padding: 0 18px 16px; display: none; flex-direction: column; gap: 9px; }
+.lista-ejercicios.abierta { display: flex; }
+
+.item-ejercicio {
+  display: flex; align-items: center; gap: 12px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 12px; padding: 13px 14px;
+  transition: background .15s;
+}
+
+.item-ejercicio:hover { background: rgba(255,255,255,.07); }
+
+.punto-musculo { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+
+.musculo-pecho   { background: #e05555; }
+.musculo-espalda { background: #5588e0; }
+.musculo-piernas { background: #50c878; }
+.musculo-hombros { background: #e0a855; }
+.musculo-brazos  { background: #c855e0; }
+.musculo-abdomen { background: #55d4e0; }
+.musculo-gluteos { background: #e07055; }
+.musculo-cardio  { background: #e055a8; }
+
+.info-ejercicio  { flex: 1; min-width: 0; }
+.nombre-ejercicio    { font-size: 14px; font-weight: 600; color: var(--blanco); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.detalles-ejercicio  { font-size: 11px; color: var(--texto-suave); margin-top: 2px; }
+
+.boton-quitar-ejercicio { background: none; border: none; color: var(--texto-suave); cursor: pointer; padding: 4px; border-radius: 6px; transition: color .2s; flex-shrink: 0; }
+.boton-quitar-ejercicio:hover { color: var(--rojo-peligro); }
+
+.boton-anadir-ejercicio {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  border: 1px dashed rgba(236,167,44,.3); border-radius: 10px;
+  padding: 11px; cursor: pointer; color: var(--dorado);
+  font-size: 13px; font-weight: 600; transition: all .2s;
+  background: none; width: 100%; font-family: var(--fuente-cuerpo);
+}
+.boton-anadir-ejercicio:hover { background: rgba(236,167,44,.07); border-color: rgba(236,167,44,.55); }
+
+/* Buscador ejercicios modal */
+.buscador-ejercicios {
+  width: 100%; background: rgba(255,255,255,.05);
+  border: 1px solid var(--borde-dorado); border-radius: 11px;
+  padding: 11px 15px; color: var(--blanco);
+  font-family: var(--fuente-cuerpo); font-size: 14px;
+  outline: none; margin-bottom: 13px; transition: border-color .2s;
+}
+.buscador-ejercicios:focus { border-color: var(--dorado); }
+.buscador-ejercicios::placeholder { color: var(--texto-suave); }
+
+.listado-bd-ejercicios { max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 7px; }
+.listado-bd-ejercicios::-webkit-scrollbar { width: 3px; }
+.listado-bd-ejercicios::-webkit-scrollbar-thumb { background: rgba(236,167,44,.2); border-radius: 2px; }
+
+.item-bd-ejercicio {
+  display: flex; align-items: center; gap: 11px;
+  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
+  border-radius: 11px; padding: 11px 13px; cursor: pointer; transition: all .18s;
+}
+.item-bd-ejercicio:hover        { background: rgba(236,167,44,.07); border-color: rgba(236,167,44,.3); }
+.item-bd-ejercicio.seleccionado { background: rgba(236,167,44,.12); border-color: rgba(236,167,44,.5); }
+
+.nombre-bd-ejercicio  { font-size: 13px; font-weight: 600; color: var(--blanco); }
+.musculo-bd-ejercicio { font-size: 11px; color: var(--texto-suave); margin-top: 1px; }
+
+.badge-seleccionado { font-size: 10px; font-weight: 700; color: var(--dorado); background: rgba(236,167,44,.12); padding: 3px 8px; border-radius: 6px; flex-shrink: 0; }
+
+/* Días vacíos */
+.dias-vacios { display: flex; flex-direction: column; align-items: center; padding: 60px 24px; text-align: center; gap: 12px; }
+.dias-vacios h3 { font-family: var(--fuente-titulo); font-size: 16px; color: var(--dorado); }
+.dias-vacios p  { font-size: 13px; color: var(--texto-suave); max-width: 240px; line-height: 1.7; }
+
+
+/* ════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .layout-entrenamiento { grid-template-columns: 250px 1fr; gap: 20px; }
+  .grid-clientes-rutinas { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+}
+
+@media (max-width: 600px) {
+  .layout-entrenamiento { grid-template-columns: 1fr; }
+  .panel-info-cliente { position: static; }
+  .hero-cliente { flex-direction: row; text-align: left; padding: 18px 20px; gap: 14px; }
+  .avatar-hero { width: 54px; height: 54px; font-size: 20px; }
+  .grid-clientes-rutinas { grid-template-columns: 1fr; }
+  .dias-rutina-badge { min-width: 52px; padding: 8px 10px; }
+  .dias-rutina-numero { font-size: 20px; }
+}
